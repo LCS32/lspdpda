@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template::head">
+</head>
+<body>
+
+	<header th:replace="plantilla/template::header"></header>
+	
+	<div class="container mt-3 card card-body mb-4" style="width: 50rem" >
+	
+<div class="container-fluid" style="text-align: center">
+		<h1 th:text="${titulo}"></h1>
+	</div>
+
+
+		<form th:action="@{/views/investigaciones/save}" th:object="${investigacion}"
+			method="post">
+
+			<div class="form-group mb-3">
+				<input type="hidden" th:field="*{id_investigacion}">
+			</div>
+			
+			
+			<div class="row">
+				<div class="form mb-3 col">
+					<label for="agente" class="form-label"><b>Agente:</b></label> <select
+						th:field="*{agente}" id="agente" class="form-select">
+						<option th:value="''" th:text="'Seleccione un agente'"></option>
+						<option th:each="agente:${agentes}" th:value="${agente.id_agente}" 
+							th:text="${agente.nombre} + ' ' + ${agente.apellido}"></option>
+					</select> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('agente')}" th:errors="*{agente}"></small>
+				</div>
+
+
+				<div class="form mb-3 col">
+					<label for="civil" class="form-label"><b>Civil:</b></label> <select
+						th:field="*{civil}" id="civil" class="form-select">
+						<option th:value="''" th:text="'Seleccione un civil'"></option>
+						<option th:each="civil:${civiles}" th:value="${civil.id_civil}" th:if="${civil.investigacion} == FALSE" 
+							th:text="${civil.nombre}+' '+ ${civil.apellido}"></option>
+					</select> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('civil')}" th:errors="*{civil}"></small>
+				</div>
+			</div>
+			
+
+
+			<div class="form-group mb-3">
+				<label for="pdf_url" class="form-label"><b>Url Documento:</b></label> <input type="text" th:field="*{pdf_url}" 
+					class="form-control" id="pdf_url"
+					placeholder="Url Documento"> <small class="form-text text-danger"
+					th:if="${#fields.hasErrors('pdf_url')}" th:errors="*{pdf_url}"></small>
+			</div>
+
+
+			
+
+
+			<div class="d-flex justify-content-center">
+				<button type="submit" class="btn btn-success">Aceptar</button>
+			</div>
+		</form>
+
+
+
+
+
+	</div>
+	<footer th:replace="plantilla/template::footer"></footer>
+</body>
+</html>

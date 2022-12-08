@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template::head">
+</head>
+<body>
+
+	<header th:replace="plantilla/template::header"></header>
+
+	<div class="container mt-3 card card-body mb-4" style="width: 50rem">
+
+		<div class="container-fluid" style="text-align: center">
+			<h1 th:text="${titulo}"></h1>
+		</div>
+
+
+		<form th:action="@{/views/delitos/save}" th:object="${delito}"
+			method="post">
+
+			<div class="form-group">
+				<input type="hidden" th:field="*{id_delito}">
+			</div>
+
+
+			<div class="row">
+				<div class="form mb-3 col">
+					<label for="agente" class="form-label"><b>Agente:</b></label> <select
+						th:field="*{agente}" id="agente" class="form-select">
+						<option th:value="''" th:text="'Seleccione un agente'"></option>
+						<option th:each="agente:${agentes}" th:value="${agente.id_agente}"
+							th:text="${agente.nombre} + ' ' + ${agente.apellido}"></option>
+					</select> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('agente')}" th:errors="*{agente}"></small>
+				</div>
+
+
+				<div class="form mb-3 col">
+					<label for="civil" class="form-label"><b>Civil:</b></label> <select
+						th:field="*{civil}" id="civil" class="form-select">
+						<option th:value="''" th:text="'Seleccione un civil'"></option>
+						<option th:each="civil:${civiles}" th:value="${civil.id_civil}"
+							th:text="${civil.nombre}+' '+ ${civil.apellido}"></option>
+					</select> <small class="form-text text-danger"
+						th:if="${#fields.hasErrors('civil')}" th:errors="*{civil}"></small>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group mb-3 col">
+					<label for="fecha" class="form-label"><b>Fecha:</b></label> <input
+						type="text" th:field="*{fecha}" class="form-control" id="fecha"
+						placeholder="Fecha del delito"> <small
+						class="form-text text-danger"
+						th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}"></small>
+				</div>
+				<div class="form mb-3 col">
+					<label for="delito_cometido" class="form-label"><b>Delito:</b></label> <select
+						th:field="*{delito_cometido}" id="delito_cometido" class="form-select">
+						<option th:value="''" th:text="'Seleccione un delito'"></option>
+						<option th:value="'Delito contra la seguridad del tráfico'"
+							th:text="'Delito contra la seguridad del tráfico'"></option>
+						<option th:value="'Agresión, disturbio y conducta errónea'"
+							th:text="'Agresión, disturbio y conducta errónea'"></option>
+						<option th:value="'Robo y Asalto'" th:text="'Robo y Asalto'"></option>
+						<option th:value="'Porte y tenencia de armas'"
+							th:text="'Porte y tenencia de armas'"></option>
+						<option th:value="'Dinero negro y otros objetos ilegales'"
+							th:text="'Dinero negro y otros objetos ilegales'"></option>
+						<option th:value="'Delito contra la sanidad pública'"
+							th:text="'Delito contra la sanidad pública'"></option>
+						<option
+							th:value="'Delito contra la integridad física del ciudadano'"
+							th:text="'Delito contra la integridad física del ciudadano'"></option>
+						<option th:value="'Delito contra la administración pública'"
+							th:text="'Delito contra la administración pública'"></option>
+						<option th:value="'Delitos de la Administración pública'"
+							th:text="'Delitos de la Administración pública'"></option>
+
+					</select><small class="form-text text-danger"
+						th:if="${#fields.hasErrors('delito_cometido')}" th:errors="*{delito_cometido}"></small>
+				</div>
+
+
+			</div>
+			<div class="row">
+				<div class="form-group mb-3 col">
+					<label for="multa" class="form-label"><b>Multa:</b></label> <input
+						type="number" th:field="*{multa}" class="form-control" id="multa"
+						placeholder="Importe de la multa"> <small
+						class="form-text text-danger"
+						th:if="${#fields.hasErrors('multa')}" th:errors="*{multa}"></small>
+				</div>
+				<div class="form-group mb-3 col">
+					<label for="sentencia" class="form-label"><b>Sentancia:</b></label>
+					<input type="text" th:field="*{sentencia}" class="form-control"
+						id="sentencia" placeholder="Ejemplo: 30 meses o 20 trabajos">
+					<small class="form-text text-danger"
+						th:if="${#fields.hasErrors('sentencia')}" th:errors="*{sentencia}"></small>
+				</div>
+
+			</div>
+
+
+
+			<div class="form-group mb-3">
+				<label for="descripcion" class="form-label"><b>Descripción:</b></label>
+				<input type="text" th:field="*{descripcion}" class="form-control"
+					id="descripcion" placeholder="Descripción"> <small
+					class="form-text text-danger"
+					th:if="${#fields.hasErrors('descripcion')}"
+					th:errors="*{descripcion}"></small>
+			</div>
+
+
+			<div class="row">
+
+				<div class="form-group mb-3 col">
+					<label for="foto_archivo_url" class="form-label"><b>Foto
+							de archivo:</b></label> <input type="text" th:field="*{foto_archivo_url}"
+						class="form-control" id="foto_archivo_url"
+						placeholder="Enlace de la foto de archivo"> <small
+						class="form-text text-danger"
+						th:if="${#fields.hasErrors('foto_archivo_url')}"
+						th:errors="*{foto_archivo_url}"></small>
+				</div>
+
+				<div class="form-group mb-3 col">
+					<label for="foto_inventario_url" class="form-label"><b>Foto
+							de inventario:</b></label> <input type="text"
+						th:field="*{foto_inventario_url}" class="form-control"
+						id="foto_inventario_url"
+						placeholder="Enlace de la foto de inventario"> <small
+						class="form-text text-danger"
+						th:if="${#fields.hasErrors('foto_inventario_url')}"
+						th:errors="*{foto_inventario_url}"></small>
+				</div>
+
+			</div>
+			<div class="mb-3 form-check">
+				<input type="checkbox" th:field="*{archivado}"
+					class="form-check-input" id="archivado"> <label
+					class="form-check-label" for="archivado">Archivado</label>
+
+			</div>
+
+			<div class="d-flex justify-content-center">
+				<button type="submit" class="btn btn-success">Aceptar</button>
+			</div>
+		</form>
+
+
+
+
+
+
+	</div>
+	<footer th:replace="plantilla/template::footer"></footer>
+</body>
+</html>

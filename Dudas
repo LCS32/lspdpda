@@ -1,0 +1,53 @@
+1- Un agente puede tener varias investigaciones. Pero un civil solo puede tener una abierta. Me deja crear varias con el mismo civil. No consigo arreglarlo
+2- Civiles y Agentes unicos nombres, No se pueden repetir. actualmente se repiten
+3- Al hacer click en delitos en investigaciones. Mostrar una lista de todos los delitos de esa persona(actualmente aparecen todos)
+
+
+
+sec:authorize="hasRole{'ROLE_ADMIN'}" Para que solo lo vean los admins
+sec:authorize="isAuthenticated() && !hasRole{'ROLE_ADMIN'}" Para ver autenticado y no es admin
+
+
+	<!-- Control ataque csrf -->
+	<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+	<!-- Fin control ataque csrf -->
+	
+Esto en cada formulario
+
+
+
+	@GetMapping("/registrar")
+	public String registrar(@Valid @ModelAttribute String nombreUsuario, String password, Model model,
+			RedirectAttributes attribute) {
+
+		if (nombreUsuario.isBlank()) {
+			attribute.addFlashAttribute("error", "Nombre de usuario no puede estar vacio");
+			return "/views/registro";
+		}
+
+		if (password.isBlank()) {
+			attribute.addFlashAttribute("error", "La contraseña no puede estar vacia");
+			return "/views/registro";
+		}
+		if (usuarioService.existsByNombre(nombreUsuario)) {
+			attribute.addFlashAttribute("error", "La contraseña no puede estar vacia");
+			return "redirect:/views/login";
+		}
+
+		Usuario usuario = new Usuario();
+		usuario.setNombreUsuario(nombreUsuario);
+		usuario.setPassword(passwordEncoder.encode(password));
+		Rol rolUser = rolService.getByRolNombre(RolNombre.ROLE_USER).get();
+		Set<Rol> roles = new HashSet<>();
+		roles.add(rolUser);
+		usuario.setRoles(roles);
+		usuarioService.save(usuario);
+		attribute.addFlashAttribute("success", "El usuario ha sido creado con éxito");
+		return "views/login";
+
+	}
+	
+		@Bean
+	public HttpFirewall getHttpFirewall() {
+		return new DefaultHttpFirewall();
+	}

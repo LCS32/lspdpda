@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template::head">
+</head>
+
+
+<header th:replace="plantilla/template::header"></header>
+
+
+<div class="container-fluid" style="text-align: center">
+	<h1 th:text="${titulo}"></h1>
+</div>
+<div style="text-align: center">
+	<a class="btn btn-light mb-3"
+		th:href="@{/views/investigaciones/create}"
+		th:text="'Nueva Investigacion'" title="Crear nueva investigacion"></a>
+</div>
+
+<body>
+
+	<table class="table table-hover" style="color: black">
+		<thead>
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Agente</th>
+				<th scope="col">Civil</th>
+				<th scope="col">Estado</th>
+				<th scope="col">Documentos</th>
+				<th scope="col">Opciones</th>
+			</tr>
+
+		</thead>
+		<tbody class="table-group-divider">
+
+			<tr th:each="iv:${investigacion}">
+				<th scope="row" th:text=${iv.id_investigacion}></th>
+				<td th:text="${iv.agente.nombre}+' '+${iv.agente.apellido}"></td>
+				<td th:text="${iv.civil.nombre}+' '+${iv.civil.apellido}"></td>
+				<td th:text="${iv.estado}"></td>
+
+				<td><a href="#" th:href=${iv.pdf_url}
+					class="btn btn-outline-info btn-sm" target="_blank">Ver
+						Documento</a> <a href="#"
+					th:href="@{/views/investigaciones/delitos/}+${iv.civil.id_civil}"
+					class="btn btn-outline-info btn-sm" target="_blank">Ver Delitos</a>
+				</td>
+
+				<td><a class="btn btn-success btn-sm"
+					th:href="@{/views/investigaciones/edit/}+${iv.id_investigacion}"
+					th:text="'Editar'" title="Editar investigacion" th:if="${iv.estado.toString()} == 'ACTIVA'"></a> <a
+					class="btn btn-danger btn-sm"
+					th:href="@{/views/investigaciones/delete/}+${iv.id_investigacion}"
+					th:text="'Eliminar'" title="Eliminar investigacion"
+					onclick="return confirm('Estas seguro de eliminar la investigacion?')"></a>
+					<a class="btn btn-danger btn-sm"
+					th:href="@{/views/investigaciones/close/}+${iv.id_investigacion}"
+					th:text="'Cerrar'" title="Cerrar investigacion"
+					onclick="return confirm('Estas seguro de cerrar la investigacion?')"></a>
+				</td>
+			</tr>
+
+		</tbody>
+		</table>
+</body>
+<footer th:replace="plantilla/template::footer"></footer>
+</html>

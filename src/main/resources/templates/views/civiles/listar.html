@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template::head">
+</head>
+<body>
+
+	<header th:replace="plantilla/template::header"></header>
+
+
+	<div class="container-fluid" style="text-align: center">
+		<h1 th:text="${titulo}"></h1>
+	</div>
+
+
+
+	<div class="container-fluid">
+
+		<div style="text-align: center">
+			<a class="btn btn-light mb-3" th:href="@{/views/civiles/create}"
+				th:text="'Nuevo Civil'" title="Crear nuevo civil"></a>
+		</div>
+		<table class="table table-hover" style="color: black">
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Apellido</th>
+					<th scope="col">Fecha Nacimiento</th>
+					<th scope="col">Género</th>
+					<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Investigacion</th>
+					<th scope="col">Estado Licencia</th>
+					<th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Opciones</th>
+
+				</tr>
+			</thead>
+			<tbody class="table-group-divider">
+
+				<tr th:each="cv:${civiles}">
+					<th scope="row" th:text=${cv.id_civil}></th>
+					<td th:text=${cv.nombre}></td>
+					<td th:text=${cv.apellido}></td>
+					<td th:text=${cv.fecha_nacimiento}></td>
+					<td th:text=${cv.genero}></td>
+
+
+
+					<td sec:authorize="hasRole('ROLE_ADMIN')" th:if="${cv.investigacion}">
+						&#9989;</td>
+					
+					<td sec:authorize="hasRole('ROLE_ADMIN')" th:unless="${cv.investigacion}">
+						&#10060;</td>
+					
+			
+
+					<td th:if="${cv.licencia_retirada}">
+						Retirada</td>
+					
+					<td th:unless="${cv.licencia_retirada}">
+						En vigor</td>
+					
+
+					<td><a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
+						th:href="@{/views/civiles/edit/}+${cv.id_civil}"
+						th:text="'Editar'" title="Editar civil"></a>
+
+
+
+					<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-danger btn-sm"
+						th:href="@{/views/civiles/delete/}+${cv.id_civil}"
+						th:text="'Eliminar'" title="Eliminar civil"
+						onclick="return confirm('Estas seguro de eliminar al civil?')"></a>
+					</td>
+
+
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+
+	
+
+
+
+	<footer th:replace="plantilla/template::footer"></footer>
+</body>
+</html>

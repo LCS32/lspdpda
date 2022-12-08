@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template::head">
+</head>
+
+
+	<header th:replace="plantilla/template::header"></header>
+
+
+	<div class="container-fluid" style="text-align: center">
+		<h1 th:text="${titulo}"></h1>
+	</div>
+
+<body>
+<div style="text-align: center">
+	<a class="btn btn-light mb-3"
+		th:href="@{/views/expedientes/create}"
+		th:text="'Nuevo Expediente'" title="Crear nuevo expediente"></a>
+</div>
+	
+
+
+	<table class="table table-hover" style="color: black">
+		<thead>
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Agente</th>
+				<th scope="col">Documentos</th>
+				<th scope="col">Opciones</th>
+			</tr>
+
+		</thead>
+		<tbody class="table-group-divider">
+
+			<tr th:each="ex:${expediente}">
+				<th scope="row" th:text=${ex.id_expediente}></th>
+				<td th:text="${ex.agente.nombre}+' '+${ex.agente.apellido}"></td>
+				<td><a href="#" th:href=${ex.pdf_url}
+					class="btn btn-outline-info btn-sm" target="_blank">Ver Documento</a> 
+				
+				</td>
+
+				<td><a class="btn btn-success btn-sm"
+					th:href="@{/views/expedientes/edit/}+${ex.id_expediente}"
+					th:text="'Editar'" title="Editar expediente"></a> <a
+					class="btn btn-danger btn-sm"
+					th:href="@{/views/expedientes/delete/}+${ex.id_expediente}"
+					th:text="'Eliminar'" title="Eliminar expediente"
+					onclick="return confirm('Estas seguro de eliminar el expediente?')"></a>
+				</td>
+			</tr>
+
+
+
+
+</body>
+
+</html>

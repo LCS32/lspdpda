@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template::head">
+</head>
+<body>
+
+	<header th:replace="plantilla/template::header"></header>
+
+
+	<div class="container-fluid" style="text-align: center">
+		<h1 th:text="${titulo}"></h1>
+	</div>
+
+
+
+	<div class="container-fluid">
+
+		<div style="text-align: center">
+			<a class="btn btn-light mb-3" th:href="@{/views/delitos/create}"
+				th:text="'Nuevo Delito'" title="Registrar nuevo delito"></a>
+		</div>
+		<table class="table table-hover" style="color: black">
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Agente</th>
+					<th scope="col">Civil</th>
+					<th scope="col">Fecha</th>
+					<th scope="col">Delito</th>
+					<th scope="col">Multa</th>
+					<th scope="col">Sentencia</th>
+					<th scope="col">Descripcion</th>
+					<th scope="col">Archivado</th>
+					<th scope="col">Foto Archivo</th>
+					<th scope="col">Foto Inventario</th>
+					<th scope="col"  sec:authorize="hasRole('ROLE_ADMIN')">Opciones</th>
+				</tr>
+			</thead>
+			<tbody class="table-group-divider">
+
+				<tr th:each="dl:${delitos}">
+					<th scope="row" th:text=${dl.id_delito}></th>
+					<td th:text="${dl.agente.nombre}+' '+${dl.agente.apellido}"></td>
+					<td th:text="${dl.civil.nombre}+' '+${dl.civil.apellido}"></td>
+					<td th:text=${dl.fecha}></td>
+					<td th:text=${dl.delito_cometido}></td>
+					<td th:text=${dl.multa}></td>
+					<td th:text=${dl.sentencia}></td>
+
+
+
+					<td><button data-toggle="collapse" th:data-target="'#delito-' + ${dl.id_delito}">Mostrar</button>
+						<div th:id="'delito-' + ${dl.id_delito}" class="card card-body collapse"
+							style="max-width: 30rem; white-space: normal"
+							th:text=${dl.descripcion}></div></td>
+
+
+					<td th:if="${dl.archivado}">
+					&#9989;</td>
+					
+					<td th:unless="${dl.archivado}">
+						&#10060;</td>
+					
+
+					<td><img onclick="javascript:this.width=450" ondblclick="javascript:this.width=30;" width="30" th:src="@{${dl.foto_archivo_url}}"></td>
+					<td><img onclick="javascript:this.width=450" ondblclick="javascript:this.width=30;" width="30" th:src="@{${dl.foto_inventario_url}}"></td>
+				
+
+
+
+
+
+
+
+					<td><a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-success btn-sm"
+						th:href="@{/views/delitos/edit/}+${dl.id_delito}"
+						th:text="'Editar'" title="Editar delito"></a>
+
+
+
+					<a sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-danger btn-sm"
+						th:href="@{/views/delitos/delete/}+${dl.id_delito}"
+						th:text="'Eliminar'" title="Eliminar delito"
+						onclick="return confirm('Estas seguro de eliminar el registro del delito?')"></a>
+					</td>
+
+
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+
+
+	<footer th:replace="plantilla/template::footer"></footer>
+</body>
+</html>

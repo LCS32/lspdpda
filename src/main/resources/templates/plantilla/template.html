@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
+<head th:fragment="head">
+<meta charset="UTF-8">
+<title>LSPD PDA</title>
+<link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+	rel="stylesheet" type="text/css" />
+
+
+
+
+
+</head>
+
+<body>
+
+	<!--BARRA DE NAVEGACIÓN-->
+	<header>
+
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark-75 mb-3">
+
+			<div class="container-fluid">
+				<img src="https://i.imgur.com/hf0hb6q.png" width="75" height="75">
+				<a class="navbar-brand text-warning" th:href=@{/index}><strong>LSPD
+						PDA</strong></a>
+				<button class="navbar-toggler" type="button"
+					data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+					aria-controls="navbarSupportedContent" aria-expanded="false"
+					aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link text-warning"
+							href="/views/agentes/">Policias</a></li>
+						<li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link text-warning"
+							href="/views/civiles/">Civiles</a></li>
+						<li class="nav-item" sec:authorize="isAuthenticated()"><a class="nav-link text-warning"
+							href="/views/delitos/">Delitos</a></li>
+						<li class="nav-item" sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')"><a class="nav-link text-warning"
+							href="/views/investigaciones/">Investigación</a></li>
+						<li class="nav-item" sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')"><a class="nav-link text-warning"
+							href="/views/expedientes/">Expedientes</a></li>
+						<li class="nav-item" sec:authorize="isAuthenticated() && hasRole('ROLE_ADMIN')"><a class="nav-link text-warning"
+							href="/views/reputacion/">Reputación</a></li>
+					</ul>
+</div>
+<div>
+
+
+
+					<a th:href="@{/login}" sec:authorize="!isAuthenticated()"><button
+							class="btn btn-outline-success my-2 my-sm-0" type="submit">
+							<i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+						</button></a>
+
+					<form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+							<button class="btn btn-outline-danger my-2 -my-sm-0" type="submit"><i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesion </button>
+						</form>
+</div>
+
+
+
+				</div>
+		</nav>
+		<!-- MENSAJES -->
+
+
+		<div class="alert alert-success alert-dismissable"
+			th:if="${success != null}">
+			<label th:text="${success}"></label>
+			<button type="button" class="btn-close" data-dismiss="alert"
+				aria-label="true"></button>
+		</div>
+
+		<div class="alert alert-danger alert-dismissable"
+			th:if="${danger != null}">
+			<label th:text="${danger}"></label>
+			<button type="button" class="btn-close" data-dismiss="alert"
+				aria-label="true"></button>
+		</div>
+
+		<div class="alert alert-warning alert-dismissable"
+			th:if="${warning != null}">
+			<label th:text="${warning}"></label>
+			<button type="button" class="btn-close" data-dismiss="alert"
+				aria-label="true"></button>
+		</div>
+
+		<div class="alert alert-info alert-dismissable"
+			th:if="${info != null}">
+			<label th:text="${info}"></label>
+			<button type="button" class="btn-close" data-dismiss="alert"
+				aria-label="true"></button>
+		</div>
+
+
+
+	</header>
+
+	<!--CONTENIDO-->
+
+	<div class="container"></div>
+
+	<!--PIE DE PAGINA-->
+
+	<footer th:fragment="footer"
+		class="bg-dark text-center text-white fixed-bottom">
+
+		<div class="container">
+			<p>Copyright TentacionesRP &copy; 2022</p>
+		</div>
+
+
+		<script type="text/javascript" th:src="@{/js/jquery.slim.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/popper.min.js}"></script>
+		<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+		<script src="https://kit.fontawesome.com/1e86ff4d87.js"></script>
+
+
+
+	</footer>
+	-->
+
+</body>
+
+</html>

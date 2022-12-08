@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template::head">
+</head>
+<body>
+
+	<header th:replace="plantilla/template::header"></header>
+	<div class="container-fluid">
+		<h1 th:text="${titulo}" class="text-center"></h1>
+	</div>
+
+	<div class="container-fluid">
+		<div style="text-align: center">
+			<a class="btn btn-light mb-3" th:href="@{/views/agentes/create}"
+				th:text="'Nuevo Agente'" title="Crear nuevo agente"></a>
+				<a class="btn btn-light mb-3" th:href="@{/views/agentes/}"
+				th:text="'Ver Agentes Activos'" title="Ver Agentes Activos"></a>
+		</div>
+		<table class="table table-hover" style="color: black">
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Apellido</th>
+					<th scope="col">Fecha Nacimiento</th>
+					<th scope="col">Género</th>
+					<th scope="col">Rango</th>
+					<th scope="col">Expediente</th>
+					<th scope="col">Suspendido</th>
+					<th scope="col">Opciones</th>
+					
+				</tr>
+			</thead>
+			<tbody class="table-group-divider">
+
+				<tr th:each="ag:${agentesus}">
+					<th scope="row" th:text=${ag.id_agente}></th>
+					<td th:text=${ag.nombre}></td>
+					<td th:text=${ag.apellido}></td>
+					<td th:text=${ag.fecha_nacimiento}></td>
+					<td th:text=${ag.genero}></td>
+					<td th:text=${ag.rango}></td>
+
+
+					<div th:if="${ag.expediente}">
+						<td>&#9989;</td>
+					</div>
+					<div th:unless="${ag.expediente}">
+						<td>&#10060;</td>
+					</div>
+
+					<div th:if="${ag.suspendidos}">
+						<td>&#9989;</td>
+					</div>
+					<div th:unless="${ag.suspendidos}">
+						<td>&#10060;</td>
+					</div>
+
+					<td><a class="btn btn-success btn-sm"
+						th:href="@{/views/agentes/edit/}+${ag.id_agente}"
+						th:text="'Editar'" title="Editar agente"></a>
+
+					<a class="btn btn-danger btn-sm"
+						th:href="@{/views/agentes/delete/}+${ag.id_agente}"
+						th:text="'Eliminar'" title="Eliminar agente"
+						onclick="return confirm('Estas seguro de eliminar al agente?')"></a>
+					</td>
+
+
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+
+	<footer th:replace="plantilla/template::footer"></footer>
+</body>
+</html>

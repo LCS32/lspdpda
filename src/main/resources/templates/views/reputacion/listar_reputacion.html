@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template::head">
+</head>
+
+
+<header th:replace="plantilla/template::header"></header>
+
+
+<div class="container-fluid" style="text-align: center">
+	<h1 th:text="${titulo}"></h1>
+</div>
+
+
+
+
+<body>
+<div class="container mt-3 card card-body mb-4" style="width: 50rem">
+	<div class="row">
+		<div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12"></div>
+		<div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12">
+			<table class="table table-hover" style="color: black">
+				<thead>
+					<tr>
+						<th scope="col">Nombre</th>
+						<th scope="col">Cantidad delitos</th>
+
+					</tr>
+
+				</thead>
+				<tbody class="table-group-divider">
+
+					<tr th:each="rp:${reputaciones}">
+						<td th:text="${rp.civil.nombre}+' '+${rp.civil.apellido}"></td>
+						<td style="width:30px" th:text="${rp.numeroDelitos}"></td>
+
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="col col-xl-4 col-lg-4 col-md-4 col-sm-12"></div>
+	</div>
+
+</div>
+</body>
+
+</html>

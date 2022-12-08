@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+<head th:replace="plantilla/template::head">
+</head>
+
+
+<header th:replace="plantilla/template::header"></header>
+
+
+<div class="container-fluid mb-3" style="text-align: center">
+	<h1 th:text="${titulo}"></h1>
+	<h1 th:text="${importe} + ' ' + '$'"></h1>
+</div>
+
+<div class="row m-2">
+	<div class="col-xl-4 col-lg-4 col-md-6 col-sm-12" th:each="dl:${delitos}"
+		th:for="${id_civil}">
+		<div
+			class="card mb-3 container-fluid d-flex flex-row justify-content-center align-items-center">
+			<div class="abs-center">
+				<div class="row g-0">
+					<div class="col-md-4">
+						<img th:src="@{${dl.foto_archivo_url}}"
+							class="img-fluid rounded-start" width="10000"
+							alt="Imagen no encontrada">
+					</div>
+					<div class="col-md-8">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${dl.delito_cometido}"></h5>
+							<p class="card-text" th:text="'Multa:'+ ' ' +${dl.multa}"></p>
+							<p class="card-title"
+								th:text="'Sentencia:'+ ' ' +${dl.sentencia}"></p>
+							<p class="card-text" th:text="${dl.descripcion}"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<body>
